@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Quick Link Mail",
+  "version": "1.0.0",
+  "description": "현재 탭의 제목과 URL을 지정된 Gmail 주소로 클릭 한 번에 발송합니다.",
+  "permissions": ["activeTab", "storage", "identity"],
+  "host_permissions": ["https://gmail.googleapis.com/*"],
+  "background": {"service_worker": "background.js", "type": "module"},
+  "options_page": "options.html",
+  "action": {"default_title": "Quick Link Mail — 현재 탭 전송", "default_icon": {"16": "icons/icon16.png", "32": "icons/icon32.png"}},
+  "icons": {"16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png"},
+  "oauth2": {
+    "client_id": "REPLACE_WITH_YOUR_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/gmail.send"]
+  }
+}
