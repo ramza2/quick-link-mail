@@ -41,3 +41,9 @@
 ## 개발
 
 `npm test`: 테스트 3개. 빌드 없이 `manifest.json`이 있는 프로젝트 폴더를 Chrome에 로드하면 됩니다.
+
+## OAuth 프로덕션 홈페이지 운영
+
+- [정적 사이트 및 미니PC Traefik 배포 가이드](docs/DEPLOY_WEBSITE.md)
+- OAuth 브랜딩 홈페이지: `https://quicklink.ramza.duckdns.org/` (배포 후 사용 가능)
+- 개인정보처리방침: `https://quicklink.ramza.duckdns.org/privacy.html` (배포 후 사용 가능)

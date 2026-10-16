@@ -1,0 +1,36 @@
+
+# Separate project from PickNext; DO NOT merge into PickNext compose stack.
+# Run from repository root:
+# docker compose -p quick-link-mail-site -f deploy/compose.website.yml up -d
+services:
+  website:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    expose:
+      - "80"
+    volumes:
+      - ../site:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.quick-link-mail-site.rule=Host(`quicklink.ramza.duckdns.org`)"
+      - "traefik.http.routers.quick-link-mail-site.entrypoints=websecure"
+      - "traefik.http.routers.quick-link-mail-site.tls=true"
+      - "traefik.http.routers.quick-link-mail-site.tls.certresolver=myresolver"
+      - "traefik.http.routers.quick-link-mail-site.service=quick-link-mail-site"
+      - "traefik.http.services.quick-link-mail-site.loadbalancer.server.port=80"
+networks:
+  proxy:
+    external: true
+    name: proxy

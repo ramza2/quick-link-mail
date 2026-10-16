@@ -19,3 +19,9 @@
 - 요청과 관련된 파일만 읽고 최소 수정. 전체 저장소 재조사/과도한 리팩터링 금지.
 - 불필요한 패키지 설치, CI 추가, 병렬 에이전트 사용 금지.
 - 변경 범위에 필요한 테스트만 실행하고 변경 경로, PASS/FAIL, SHA/PR 링크만 보고.
+
+## Website / Deployment
+- `site/`: 공개 정적 OAuth 안내 홈페이지·개인정보처리방침. 사용자가 요청하지 않으면 추적/분석 도구 추가 금지.
+- `deploy/compose.website.yml`: 미니PC 전용 **독립** Compose; 기존 PickNext/Traefik 자체 Compose 변경 금지.
+- Traefik Docker network `proxy`, entrypoint `websecure`, resolver `myresolver` 재사용. TLS-ALPN-01 인증서 동작 유지.
+- 개인 계정, TXT 검증 토큰, OAuth 인증 정보, 서버 내부 IP·경로 등 비밀값을 공개 사이트/저장소에 추가하지 말 것.
