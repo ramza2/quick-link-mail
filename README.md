@@ -64,3 +64,10 @@
 - [정적 사이트 및 미니PC Traefik 배포 가이드](docs/DEPLOY_WEBSITE.md)
 - OAuth 브랜딩 홈페이지: https://quicklink.ramza.duckdns.org/ (**운영 및 접속 확인**) 
 - 개인정보처리방침: https://quicklink.ramza.duckdns.org/privacy.html (**공개**)
+
+## 고정 ID 마이그레이션 진행
+
+기존 확장을 유지한 채 새로운 고정 ID로 이전하는 절차를 준비했습니다. 먼저 미니PC에서 **개인키를 로컬 보관**하고 공개키와 새 ID만 확인합니다.
+
+- [단계별 마이그레이션 실행 가이드](docs/ID_MIGRATION_RUNBOOK.md)
+- [로컬에서 공개키/ID 생성하는 스크립트](scripts/generate-extension-key.sh)

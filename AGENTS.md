@@ -32,3 +32,9 @@
 - Testing-only 7-day consent expiry no longer applies to new production grants. Reauthorization still possible due to legacy grants/revocation. Never claim permanent authorization.
 - `manifest.key` is intentionally absent; multi-PC ID stability is **not solved**. Do not add a key or change OAuth client IDs without user's explicit approval and migration plan in docs/EXTENSION_ID.md.
 - Documentation-only maintenance should not change runtime extension JS/manifest or restart the public Traefik / PickNext stack.
+
+## Stable ID migration
+- Script `scripts/generate-extension-key.sh` creates a private RSA PEM **outside** the repo under the user's home directory; never commit private keys.
+- Migration is staged: do not change existing installed Chrome extension or delete existing OAuth client until new fixed-ID extension is tested.
+- Only add `manifest.key` when the user supplies a public key generated on their machine. Never invent or publish private signing credentials.
+- See `docs/ID_MIGRATION_RUNBOOK.md` for rollout and rollback.
