@@ -1,16 +1,28 @@
 # Google Cloud Gmail API / OAuth 설정
 
-## 이미 Quick Link Mail 프로젝트가 있는 경우
+## 운영 상태 (2026-10-16)
 
-다른 PC에 설치할 때 **새 프로젝트, Gmail API, 동의 화면을 다시 만들지 않습니다.** 같은 Google Cloud 프로젝트에 **그 PC의 확장 ID로 Chrome 확장 프로그램용 OAuth 클라이언트만 추가**하면 됩니다. [다른 PC 설치 문서](INSTALL.md)를 참고하세요.
+- 프로젝트: **Quick Link Mail** (기존 GoogleDriveTest와 분리)
+- OAuth 사용자 유형: **외부(External)**
+- 게시 상태: **프로덕션(In production)** — 직접 앱 게시 완료
+- Google 공식 민감 범위 검증: **미완료** — 미검증 경고 및 최대 100명 사용자 제한 가능
+- API/범위: Gmail API 사용, `https://www.googleapis.com/auth/gmail.send`
+- 홈페이지: https://quicklink.ramza.duckdns.org/
+- 개인정보처리방침: https://quicklink.ramza.duckdns.org/privacy.html
+- 승인된 도메인: `ramza.duckdns.org` (Search Console DNS 소유권 확인)
+- 발송 및 실제 수신: **정상 확인**
+
+**새 PC는 같은 Cloud 프로젝트를 재사용합니다.** 새 프로젝트, Gmail API, 동의 화면을 만들지 말고 **그 PC의 확장 ID와 일치하는 Chrome 확장 OAuth 클라이언트**를 추가하세요. [설치 문서](INSTALL.md) / [확장 ID 현황](EXTENSION_ID.md)
+
+## 최초 Google Cloud 설정 기록
 
 ## 최초 Google Cloud 설정
 
 1. [Google Cloud Console](https://console.cloud.google.com/)에서 새 프로젝트 **Quick Link Mail** 생성 (기존 GoogleDriveTest와 분리)
 2. **API 및 서비스 → 라이브러리 → Gmail API → 사용 설정**
 3. **Google 인증 플랫폼 → 브랜딩**: 앱 이름 `Quick Link Mail`, 사용자 지원 이메일, 개발자 연락처 등 필수 항목
-4. **대상(Audience)**: 개인 Gmail인 경우 **외부(External)** 및 **테스트 중(Testing)**
-5. **테스트 사용자 → Add users**: 메일 **발신 Google 계정**을 추가 (수신자가 아님)
+4. **대상(Audience)**: 개인 Gmail인 경우 **외부(External)**. 초기 테스트 때는 Testing을 사용했으나 **현재는 프로덕션**으로 전환 완료
+5. 초기 Testing 기간에만 **테스트 사용자 → 발신 Google 계정** 등록이 필요했음. **현재 프로덕션에서는 추가할 필요 없음**
 6. **데이터 액세스(Data access)**: `https://www.googleapis.com/auth/gmail.send` **단 하나만** 추가
 7. Chrome `chrome://extensions`에 소스 로드 → **확장 프로그램 ID** 확인
 8. **클라이언트 → 클라이언트 만들기**: 유형 **Chrome 확장 프로그램**, 앱 ID에 Chrome의 32자리 ID 입력
@@ -25,13 +37,17 @@
 - **수신자:** 확장 옵션에서 저장한 Gmail 주소.
 - **권한:** `gmail.send`는 메일 발송 권한이며 메일 읽기/삭제 권한을 요청하지 않습니다.
 
-## 테스트 중 vs 프로덕션
+## 재인증 정책: 현재 프로덕션 기준
 
-- **테스트 중**은 자동으로 프로덕션 상태로 바뀌지 않습니다.
-- 외부 앱이 테스트 중이라면 등록된 **테스트 사용자만** 인증할 수 있습니다.
-- Gmail 발송 권한에 대한 테스트 모드 동의/토큰 갱신은 일반적으로 **7일 제한**이 적용될 수 있습니다.
-- **프로덕션(게시)**과 **Google 공식 인증 완료(검증)**는 다른 상태입니다. 게시 이후에도 미검증 경고 또는 사용자 수 제한이 남을 수 있으며, 공개 사용을 위한 민감한 범위 검증이 필요할 수 있습니다.
-- 개인 실사용이라도 장기 이용 전 Google Auth Platform의 브랜딩/게시 상태 및 정책을 확인하세요.
+- Google은 **External / Testing** 상태에서 민감 권한을 허용한 사용자의 인증·갱신에 **7일 만료 정책**을 적용합니다.
+- 현재는 **External / Production**이므로 **테스트 모드의 7일 만료 정책이 더 이상 적용되지 않습니다.**
+- 그러나 **테스트 상태에서 발급된 기존 토큰이 자동으로 무기한 연장된다고 보장하지 않습니다.** 이전 승인이 만료되는 경우 **한 번 새로 인증**하세요. 지금 발송이 정상이라면 먼저 인증을 초기화할 필요 없습니다.
+- Chrome `identity.getAuthToken({interactive:false})`는 캐시된 액세스 토큰을 자동 갱신할 수 있지만, 사용자의 접근 철회·계정 탈퇴/로그아웃·정책 변경 등으로 승인 화면이 필요할 수 있습니다.
+- 재인증이 필요한 경우: **확장 옵션 → 계정 연결 초기화 → Google 계정 인증**. 이후 발송을 재검증합니다.
+- **프로덕션 게시 ≠ 공식 Google 검증 완료**. 현재 `gmail.send` 민감 범위 미검증 상태여서 신규 계정에 경고가 보일 수 있고 사용자 100명 제한이 적용될 수 있습니다.
+- ID 고정은 OAuth 게시 상태와 별개입니다. 현재 `manifest.key`는 없습니다. [ID 가이드](EXTENSION_ID.md).
+
+공식 참고: [Google OAuth 게시/검증 상태](https://developers.google.com/identity/protocols/oauth2/production-readiness/overview), [7일 만료 정책](https://developers.google.com/identity/protocols/oauth2/), [Chrome Identity API](https://developer.chrome.com/docs/extensions/reference/api/identity)
 
 ## 공식 참고 문서
 

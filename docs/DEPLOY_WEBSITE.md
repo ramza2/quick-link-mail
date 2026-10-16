@@ -1,6 +1,8 @@
 # Quick Link Mail — 미니PC 웹사이트 배포 및 OAuth 운영 전환
 
-이 문서는 기존 `picknext.ramza.duckdns.org` / Traefik 운영 환경을 보호하면서 **정적 안내 웹사이트만 추가**하기 위한 안내입니다.
+이 문서는 기존 `picknext.ramza.duckdns.org` / Traefik 운영 환경을 보호하면서 **Quick Link Mail OAuth 공개 정적 웹사이트를 관리**하는 안내입니다.
+
+> **운영 기록 (2026-10-16):** HTTPS 홈페이지 정상 접속, Search Console DNS 도메인 소유권 인증 성공, Google Auth Platform 브랜딩 등록 및 OAuth **프로덕션 게시 완료**. Gmail 발송/수신도 정상 확인했습니다. 재배포 방법은 **복구 및 신규 서버 이관 시** 사용합니다.
 
 ## 확인한 기존 환경
 
@@ -69,7 +71,7 @@ curl -I --max-time 15 https://quicklink.ramza.duckdns.org/privacy.html
 
 ## 5. Google Search Console — 도메인 소유권
 
-**중요: 이 단계는 배포만으로 자동 처리되지 않습니다.**
+**완료:** 2026-10-16 Search Console에서 `ramza.duckdns.org` 도메인 속성 **소유권 확인 성공**. 아래는 재검증 또는 서버 이전 시 절차입니다. 현재 DNS TXT 레코드는 삭제하지 마세요.
 
 1. [Search Console](https://search.google.com/search-console) 에서 **Quick Link Mail Google Cloud 프로젝트의 Owner 계정**으로 로그인
 2. `속성 추가(Add property) → 도메인(Domain)` 선택
@@ -92,11 +94,11 @@ Search Console에 등록한 **도메인 속성** 검증을 완료한 후 Google 
 
 - 브랜딩 / 홈페이지 URL: https://quicklink.ramza.duckdns.org/
 - 개인정보처리방침 URL: https://quicklink.ramza.duckdns.org/privacy.html
-- 승인된 도메인: `ramza.duckdns.org` (Google이 수락한 경우)
+- 승인된 도메인: `ramza.duckdns.org` (**등록 및 도메인 소유권 검증 완료**)
 - 사용자 지원 이메일 및 연락처: 프로젝트의 유효한 계정
-- 대상(Audience): 준비가 끝난 후 `앱 게시(Publish app)` 진행
+- 대상(Audience): **프로덕션 단계** (2026-10-16 앱 게시 완료)
 
-게시(Published)는 Google의 공식 검증(Verified)과 다릅니다. 개인용 소수 사용자에게는 검증 예외가 있을 수 있지만 미검증 앱 경고·사용자 수 제한은 남을 수 있습니다. Google의 판단에 따라 추가 검증이 요구될 수도 있습니다.
+게시(Published)는 Google 공식 검증(Verified)과 다릅니다. 현재 앱은 **프로덕션 게시 완료 / 미검증**입니다. 개인용 소수 사용자에게는 검증 예외가 있을 수 있으나 미검증 경고·100명 사용자 제한은 남을 수 있습니다. Google의 판단에 따라 추가 검증이 요구될 수도 있습니다.
 
 ## 배포 중지 및 롤백
 

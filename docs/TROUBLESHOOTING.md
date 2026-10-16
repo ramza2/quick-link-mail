@@ -1,8 +1,13 @@
 # 문제 해결
 
-## 403: access_denied — 테스트 사용자만 앱에 접근 가능
+## 403: access_denied — OAuth 접근 거부
 
-Google Cloud에서 **Quick Link Mail 프로젝트**를 선택한 다음 **Google 인증 플랫폼 → 대상(Audience) → 테스트 사용자(Add users)** 에 **발신 Google 계정**을 추가하세요. 잠시 기다린 후 다시 인증합니다. 메일 수신 계정이 아니라 **발신 계정**이 등록되어야 합니다.
+**현재 Quick Link Mail 프로젝트는 프로덕션입니다.** 과거처럼 테스트 사용자를 추가하는 방식은 원칙적으로 필요하지 않습니다.
+
+1. 상단 Cloud 프로젝트가 **Quick Link Mail**인지, **대상 → 프로덕션 단계**인지 먼저 확인하세요.
+2. `manifest.json`의 클라이언트 ID가 해당 PC의 Chrome 확장 ID와 일치하는지 확인하세요.
+3. 새 사용자라면 미검증 앱의 **100명 OAuth 사용자 한도**, 관리자 정책 또는 권한 문제를 확인하세요.
+4. 프로젝트가 실제로 다시 Testing으로 되돌아간 경우에만 발신 계정을 **대상 → 테스트 사용자**에 추가하세요.
 
 ## Google 로그인 화면에 GoogleDriveTest가 표시됨
 
@@ -39,8 +44,11 @@ Google Cloud에서 **Quick Link Mail 프로젝트**를 선택한 다음 **Google
 
 ## 첫 PC에서 되지만 새 PC에서는 실패
 
-새 PC에서 확장 프로그램 ID가 달라졌을 수 있습니다. 기존 Cloud **Quick Link Mail** 프로젝트에 **새 PC용 Chrome OAuth 클라이언트**를 추가하고 그 ID를 `manifest.json`에 적용하세요. [INSTALL.md](INSTALL.md)를 확인하세요.
+새 PC에서 확장 프로그램 ID가 달라졌을 수 있습니다. 기존 Cloud **Quick Link Mail** 프로젝트에 **새 PC용 Chrome OAuth 클라이언트**를 추가하고 그 ID를 `manifest.json`에 적용하세요. 현재 ID 고정은 도입 전입니다. [INSTALL.md](INSTALL.md) / [ID 마이그레이션](EXTENSION_ID.md)를 확인하세요.
 
 ## 며칠 후 재인증 요구
 
-Google Cloud OAuth 앱의 게시 상태가 **테스트 중**인지 확인하세요. Gmail 발송 권한 사용 시 테스트 모드 승인/토큰 수명에 일반적으로 **7일 제한**이 있을 수 있습니다. 프로덕션 게시·검증 정책은 [Google OAuth 안내](GOOGLE_OAUTH_SETUP.md)를 참고하세요.
+1. **대상 → 프로덕션 단계**가 유지되는지 확인하세요. 현재 앱은 테스트 모드에서 전환 완료된 상태입니다.
+2. **프로덕션 전에 발급된 승인/토큰**이 남아 있어 한 번 더 인증해야 할 수 있습니다. 이 경우 **확장 옵션 → 계정 연결 초기화 → Google 계정 인증**으로 승인한 뒤 전송을 확인하세요.
+3. 그 후에도 자주 반복되면 계정 접근 취소, Chrome 프로필 변경, Workspace 조직 정책, 앱 권한 변경 및 오류 로그를 확인하세요.
+4. 프로덕션은 **절대 재인증하지 않는 상태가 아닙니다.** 더 자세한 설명은 [OAuth 운영 문서](GOOGLE_OAUTH_SETUP.md)를 참고하세요.

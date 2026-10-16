@@ -25,3 +25,10 @@
 - `deploy/compose.website.yml`: 미니PC 전용 **독립** Compose; 기존 PickNext/Traefik 자체 Compose 변경 금지.
 - Traefik Docker network `proxy`, entrypoint `websecure`, resolver `myresolver` 재사용. TLS-ALPN-01 인증서 동작 유지.
 - 개인 계정, TXT 검증 토큰, OAuth 인증 정보, 서버 내부 IP·경로 등 비밀값을 공개 사이트/저장소에 추가하지 말 것.
+
+## Production state (confirmed 2026-10-16)
+- Google Cloud Quick Link Mail: External / **In production** / **unverified**; gmail.send only. Gmail real receive confirmed.
+- OAuth domain: ramza.duckdns.org DNS ownership verified; site HTTPS active; do not delete DuckDNS verification TXT.
+- Testing-only 7-day consent expiry no longer applies to new production grants. Reauthorization still possible due to legacy grants/revocation. Never claim permanent authorization.
+- `manifest.key` is intentionally absent; multi-PC ID stability is **not solved**. Do not add a key or change OAuth client IDs without user's explicit approval and migration plan in docs/EXTENSION_ID.md.
+- Documentation-only maintenance should not change runtime extension JS/manifest or restart the public Traefik / PickNext stack.
