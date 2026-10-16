@@ -1,0 +1,15 @@
+# Never commit credentials, generated private keys, or local artifacts
+*.pem
+*.p12
+*.pfx
+*.key
+*.crx
+.env
+.env.*
+*token*.json
+*credentials*.json
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+coverage/
