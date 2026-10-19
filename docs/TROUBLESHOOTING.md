@@ -44,7 +44,7 @@
 
 ## 첫 PC에서 되지만 새 PC에서는 실패
 
-현재 GitHub 소스의 확장 ID는 `ffdbaoipblppbkoomlgoonmddgijbmcg`로 고정했습니다. 새 PC의 `chrome://extensions` ID와 동일한지 확인하세요. Google Cloud의 **Quick Link Mail** 프로젝트에는 이 고정 ID용 OAuth 클라이언트를 **최초 1회만** 만들고, 모든 PC의 로컬 `manifest.json.oauth2.client_id`에 같은 값을 입력하면 됩니다. [INSTALL.md](INSTALL.md) / [ID 마이그레이션](ID_MIGRATION_RUNBOOK.md).
+현재 GitHub 소스의 확장 ID는 `ffdbaoipblppbkoomlgoonmddgijbmcg`로 고정했습니다. 새 PC의 `chrome://extensions` ID와 동일한지 확인하세요. Google Cloud **Quick Link Mail** 프로젝트에 고정 ID용 OAuth 클라이언트 **Quick Link Mail - Fixed ID**가 이미 있습니다. 모든 PC의 로컬 `manifest.json.oauth2.client_id`에 같은 OAuth 클라이언트 ID를 설정하면 됩니다. [INSTALL.md](INSTALL.md) / [ID 마이그레이션](ID_MIGRATION_RUNBOOK.md).
 
 ## 며칠 후 재인증 요구
 
