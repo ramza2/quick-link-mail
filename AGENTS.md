@@ -35,6 +35,6 @@
 
 ## Stable ID migration
 - Script `scripts/generate-extension-key.sh` creates a private RSA PEM **outside** the repo under the user's home directory; never commit private keys.
-- Migration completed 2026-10-19. Legacy OAuth client may be deleted only after explicitly confirming no devices depend on it; never touch active Fixed ID OAuth client.
+- Migration completed 2026-10-19; user confirmed legacy OAuth client deletion. Never delete or modify active `Quick Link Mail - Fixed ID` OAuth client.
 - User supplied the public key and fixed ID; `manifest.json.key` is committed. Never publish the private PEM or change this key without an explicit full-ID migration.
 - See `docs/ID_MIGRATION_RUNBOOK.md` for completion notes and `docs/INSTALL.md` for new-PC installation.

@@ -17,7 +17,7 @@
 | Search Console | `ramza.duckdns.org` DNS TXT 소유권 확인 완료 |
 | DNS TXT | Google 확인 레코드 유지 필요 |
 | 서버 | 기존 미니PC Docker, Traefik TLS-ALPN-01 / `proxy` / `myresolver`, 별도 Nginx 웹사이트 컨테이너 |
-| Chrome 확장 ID | **고정 및 실사용 검증 완료**: `ffdbaoipblppbkoomlgoonmddgijbmcg`; 고정 ID용 OAuth 클라이언트 사용 |
+| Chrome 확장 ID | **고정 및 실사용 검증 완료**: `ffdbaoipblppbkoomlgoonmddgijbmcg`; `Quick Link Mail - Fixed ID` OAuth 클라이언트 사용 |
 | 7일마다 재인증 | **현재 External/Production이므로 테스트 모드의 7일 정책은 적용 대상 아님**. 다만 기존 승인 만료나 접근 취소로 추후 재인증할 수 있음 |
 
 ## 결론
@@ -30,7 +30,7 @@
 
 ## 변경 금지 / 보안
 
-- 현재 정상 발송되는 고정 확장 ID, 공개키 및 OAuth 클라이언트를 변경하지 말 것. 구형 클라이언트는 다른 기기 사용 여부를 확인한 뒤에만 선택적으로 삭제.
+- 현재 정상 발송되는 고정 확장 ID, 공개키 및 `Quick Link Mail - Fixed ID` OAuth 클라이언트를 변경하지 말 것. **이전 구형 OAuth 클라이언트 삭제 완료(2026-10-19 사용자 확인)**.
 - `.pem`, Google 인증 토큰, DuckDNS API 토큰, Google TXT 실제 값은 GitHub에 올리지 말 것.
 - 프로젝트 설정이나 외부 DNS/Traefik을 불필요하게 변경하지 말 것.
 

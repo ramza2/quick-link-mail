@@ -34,7 +34,7 @@ git clone https://github.com/ramza2/quick-link-mail.git
 3. 해당 고정 ID용 클라이언트는 **2026-10-19 생성 및 발송 검증 완료**됐습니다. 새로 만들지 마세요.
 4. 기존 **Quick Link Mail - Fixed ID** OAuth 클라이언트 ID 전체(`...apps.googleusercontent.com`)를 복사합니다.
 
-**동일 고정 확장 ID를 쓰는 다른 PC는 Google Cloud에 새 OAuth 클라이언트를 추가할 필요가 없습니다.** 기존 구형 클라이언트는 사용 중인 다른 기기가 있는지 확인 후 선택적으로 정리하면 됩니다.
+**동일 고정 확장 ID를 쓰는 다른 PC는 Google Cloud에 새 OAuth 클라이언트를 추가할 필요가 없습니다.** 기존 구형 OAuth 클라이언트는 2026-10-19 삭제 완료됐으며, **현재 `Quick Link Mail - Fixed ID` 클라이언트만 사용**합니다.
 
 ## 4. manifest.json에 새 클라이언트 ID 설정
 
