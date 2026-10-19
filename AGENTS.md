@@ -11,7 +11,7 @@
 ## Safety
 - 필요한 권한만 유지: `activeTab`, `storage`, `identity`, Gmail API 호스트.
 - OAuth access/refresh token, client secret, Gmail 비밀번호, `.pem` 개인키는 커밋 금지.
-- GitHub `manifest.json`의 `oauth2.client_id`는 PC별 설정을 위한 자리표시자.
+- GitHub `manifest.json`의 `oauth2.client_id`는 고정 ID용 OAuth 클라이언트를 넣기 위한 자리표시자. 인증 전 로컬에서 변경해야 함; `key` 공개키는 변경하지 말 것.
 - 다른 PC에서 unpacked extension ID는 달라질 수 있음. `manifest.key` 도입은 기존 OAuth 클라이언트 ID 마이그레이션 검토 후 진행.
 - 기존 정상 작동하는 사용자 흐름을 깨는 변경 금지.
 
@@ -30,11 +30,11 @@
 - Google Cloud Quick Link Mail: External / **In production** / **unverified**; gmail.send only. Gmail real receive confirmed.
 - OAuth domain: ramza.duckdns.org DNS ownership verified; site HTTPS active; do not delete DuckDNS verification TXT.
 - Testing-only 7-day consent expiry no longer applies to new production grants. Reauthorization still possible due to legacy grants/revocation. Never claim permanent authorization.
-- `manifest.key` is intentionally absent; multi-PC ID stability is **not solved**. Do not add a key or change OAuth client IDs without user's explicit approval and migration plan in docs/EXTENSION_ID.md.
+- Public `manifest.json.key` now pins extension ID `ffdbaoipblppbkoomlgoonmddgijbmcg`. This is a **staged migration**; existing installed extension/OAuth client must remain intact until fixed-ID smoke test passes.
 - Documentation-only maintenance should not change runtime extension JS/manifest or restart the public Traefik / PickNext stack.
 
 ## Stable ID migration
 - Script `scripts/generate-extension-key.sh` creates a private RSA PEM **outside** the repo under the user's home directory; never commit private keys.
 - Migration is staged: do not change existing installed Chrome extension or delete existing OAuth client until new fixed-ID extension is tested.
-- Only add `manifest.key` when the user supplies a public key generated on their machine. Never invent or publish private signing credentials.
+- User supplied the public key and fixed ID; `manifest.json.key` is committed. Never publish the private PEM or change this key without an explicit full-ID migration.
 - See `docs/ID_MIGRATION_RUNBOOK.md` for rollout and rollback.

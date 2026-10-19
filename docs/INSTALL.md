@@ -14,7 +14,7 @@ git clone https://github.com/ramza2/quick-link-mail.git
 
 - 계속 사용할 위치에 폴더를 보관하세요. 예: `C:\Tools\quick-link-mail`
 - Chrome에서는 **`manifest.json`이 들어 있는 폴더**를 선택합니다.
-- 설치한 이후 폴더를 이동하면 확장 ID가 달라질 수 있습니다.
+- 현재 GitHub 소스에는 공개키 `manifest.json.key`가 포함되어 있으므로 폴더 위치가 달라도 같은 확장 ID를 유지하도록 구성되어 있습니다. 다만 기존 설치 확장과 ID가 다를 수 있으므로 별도 설치하여 검증하세요.
 
 ## 2. Chrome 확장 프로그램 설치
 
@@ -25,20 +25,16 @@ git clone https://github.com/ramza2/quick-link-mail.git
 5. 카드에 나타난 **32자리 확장 프로그램 ID** 복사
 6. Chrome 퍼즐 모양 메뉴에서 Quick Link Mail **고정(핀)**
 
-**중요:** 현재 v1.0.0에는 고정된 `manifest.key`가 없습니다. 다른 PC의 압축해제된 확장 프로그램 ID는 설치 경로/환경에 따라 달라질 수 있습니다. **기존 PC의 OAuth 클라이언트를 무조건 재사용하지 않습니다.** [ID 고정/마이그레이션 안내](EXTENSION_ID.md)
+**고정 ID:** `ffdbaoipblppbkoomlgoonmddgijbmcg`. 이 값과 다르면 구버전 확장을 로드했거나 `manifest.json`의 공개키가 누락되었을 수 있습니다. [마이그레이션 안내](ID_MIGRATION_RUNBOOK.md)
 
-## 3. 기존 Google Cloud 프로젝트에 새 PC용 클라이언트 추가
+## 3. 고정 ID용 Google OAuth 클라이언트 준비
 
-1. [Google Cloud Console](https://console.cloud.google.com/) 이동
-2. 상단 프로젝트 이름이 **Quick Link Mail**인지 확인 (**GoogleDriveTest 등 과거 프로젝트와 혼동 금지**)
-3. **Google 인증 플랫폼 → 클라이언트** 선택
-4. **+ 클라이언트 만들기** 클릭
-5. 유형: **Chrome 확장 프로그램**
-6. 이름 예: `Quick Link Mail - Home PC`
-7. 2단계의 **새 PC 확장 프로그램 ID** 입력
-8. 발급된 **OAuth 클라이언트 ID 전체**(`...apps.googleusercontent.com`) 복사
+1. [Google Cloud Console](https://console.cloud.google.com/)에서 **Quick Link Mail** 프로젝트 선택 (**GoogleDriveTest와 혼동 금지**).
+2. **Google 인증 플랫폼 → 클라이언트**에서 고정 ID `ffdbaoipblppbkoomlgoonmddgijbmcg`를 등록한 클라이언트가 이미 있다면 **그 클라이언트 ID 재사용**.
+3. 아직 없다면 **+ 클라이언트 만들기 → Chrome 확장 프로그램**을 선택하고 **애플리케이션 ID**에 `ffdbaoipblppbkoomlgoonmddgijbmcg` 입력.
+4. 이름은 `Quick Link Mail - Fixed ID` 등으로 지정 후 발급된 OAuth **클라이언트 ID 전체**(`...apps.googleusercontent.com`) 복사.
 
-이미 새 PC와 같은 확장 ID를 등록한 올바른 클라이언트가 있으면 재사용할 수 있습니다. **기존 PC의 클라이언트를 삭제하거나 수정할 필요는 없습니다.** 새 PC마다 필요한 OAuth 클라이언트를 같은 Cloud 프로젝트에 추가할 수 있습니다.
+**동일 고정 확장 ID를 쓰는 다른 PC는 Google Cloud에 새 OAuth 클라이언트를 추가할 필요가 없습니다.** 기존 PC의 구버전 확장 및 기존 클라이언트는 마이그레이션 전까지 삭제하지 마세요.
 
 ## 4. manifest.json에 새 클라이언트 ID 설정
 
@@ -74,8 +70,6 @@ Git에서 내려받은 폴더는 로컬 `manifest.json`이 수정된 상태로 �
 3. **✓** 표시 확인 후 고정 수신 Gmail의 수신함 확인
 4. **!** 표시나 오류 발생 시 [문제 해결](TROUBLESHOOTING.md) 참고
 
-## 기존 PC와 같은 확장 ID를 쓰고 싶다면
+## 기존 PC의 구버전 확장 이전
 
-**ID 고정은 아직 구현하지 않았습니다.** `manifest.key`에 해당 확장의 공개키를 넣어야 경로에 무관한 ID로 유지할 수 있습니다. 지금 임의의 새 키를 추가하면 기존 Chrome 확장 ID가 변경되어 OAuth 연결이 끊길 수 있으므로 의도적으로 보류 중입니다.
-
-이 단계에서는 **PC별 Chrome OAuth 클라이언트**가 더 안전한 우회책입니다. 향후 모든 PC에서 하나의 고정 ID를 쓰기로 결정하면 [마이그레이션 가이드](EXTENSION_ID.md)에 따라 키와 Cloud 클라이언트를 함께 전환하세요. 비밀 `.pem` 개인키는 저장소에 올리지 않습니다.
+새 소스의 `manifest.json.key` 공개키는 `ffdbaoipblppbkoomlgoonmddgijbmcg`를 생성합니다. 기존 PC의 확장 ID는 다를 수 있으므로 **기존 확장을 삭제하지 말고 별도 Chrome 프로필에서 새 확장의 발송을 확인한 후** 이전하세요. 기존 수신자 설정과 Google 인증은 새 ID로 자동 이전되지 않습니다. [전환 절차](ID_MIGRATION_RUNBOOK.md)와 [ID 원리](EXTENSION_ID.md)를 참고하세요.

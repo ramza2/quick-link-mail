@@ -12,7 +12,7 @@
 - 승인된 도메인: `ramza.duckdns.org` (Search Console DNS 소유권 확인)
 - 발송 및 실제 수신: **정상 확인**
 
-**새 PC는 같은 Cloud 프로젝트를 재사용합니다.** 새 프로젝트, Gmail API, 동의 화면을 만들지 말고 **그 PC의 확장 ID와 일치하는 Chrome 확장 OAuth 클라이언트**를 추가하세요. [설치 문서](INSTALL.md) / [확장 ID 현황](EXTENSION_ID.md)
+**새 PC는 같은 Cloud 프로젝트와 고정 ID용 OAuth 클라이언트를 재사용합니다.** GitHub의 `manifest.json.key`가 고정 ID `ffdbaoipblppbkoomlgoonmddgijbmcg`를 생성합니다. 새로운 ID용 OAuth 클라이언트 생성은 **최초 1회만** 필요합니다. 현재는 새 ID로 실제 메일 발송 검증 전입니다. [설치 문서](INSTALL.md) / [마이그레이션](ID_MIGRATION_RUNBOOK.md)
 
 ## 최초 Google Cloud 설정 기록
 
@@ -45,7 +45,7 @@
 - Chrome `identity.getAuthToken({interactive:false})`는 캐시된 액세스 토큰을 자동 갱신할 수 있지만, 사용자의 접근 철회·계정 탈퇴/로그아웃·정책 변경 등으로 승인 화면이 필요할 수 있습니다.
 - 재인증이 필요한 경우: **확장 옵션 → 계정 연결 초기화 → Google 계정 인증**. 이후 발송을 재검증합니다.
 - **프로덕션 게시 ≠ 공식 Google 검증 완료**. 현재 `gmail.send` 민감 범위 미검증 상태여서 신규 계정에 경고가 보일 수 있고 사용자 100명 제한이 적용될 수 있습니다.
-- ID 고정은 OAuth 게시 상태와 별개입니다. 현재 `manifest.key`는 없습니다. [ID 가이드](EXTENSION_ID.md).
+- GitHub 소스의 `manifest.json`에 공개키 `key`를 추가해 고정 ID `ffdbaoipblppbkoomlgoonmddgijbmcg`를 설정했습니다. 기존 설치본은 별도이며 새 ID의 OAuth 클라이언트/발송 검증이 아직 필요합니다. [ID 가이드](EXTENSION_ID.md).
 
 공식 참고: [Google OAuth 게시/검증 상태](https://developers.google.com/identity/protocols/oauth2/production-readiness/overview), [7일 만료 정책](https://developers.google.com/identity/protocols/oauth2/), [Chrome Identity API](https://developer.chrome.com/docs/extensions/reference/api/identity)
 

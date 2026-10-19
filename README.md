@@ -12,18 +12,18 @@
 | Google OAuth 게시 | **프로덕션** (테스트 중 아님) |
 | Google 공식 앱 검증 | **미완료** (민감한 `gmail.send` 범위로 미검증 경고/사용자 수 제한 가능) |
 | 테스트 모드 7일 인증 제한 | **프로덕션 게시로 해당 정책에서 제외**. 단, 기존 테스트 시절 승인/토큰 및 임의 취소 가능성으로 영구 인증 보장 불가 |
-| 확장 프로그램 ID 고정 | **미구현**: `manifest.key` 없음. 설치 폴더/다른 PC의 ID 변경 가능 |
+| 확장 프로그램 ID 고정 | **공개키 반영**: `manifest.json`의 `key`로 ID `ffdbaoipblppbkoomlgoonmddgijbmcg` 고정. **Chrome 설치/OAuth 재검증 대기** |
 | 사이트 배포/HTTPS/도메인 소유권 | 확인 완료. DNS 검증 TXT 삭제 금지 |
 
 재인증은 매주 자동으로 필요한 상태가 아닙니다. 다만 계정 권한 취소, Google/Chrome 정책, 예전 테스트 중 생성된 승인 등의 이유로 **추후 한 번 재인증이 필요할 수 있습니다**. 정상 발송 중이라면 임의로 연결을 초기화할 필요 없습니다.
 
-확장 ID 고정은 **OAuth 프로덕션 전환과 무관한 별도 작업**입니다. 기존 PC에서 정상 작동 중인 ID를 바꿔 인증을 깨지 않도록 아직 적용하지 않았습니다. [ID 고정/다른 PC 마이그레이션 가이드](docs/EXTENSION_ID.md)를 참고하세요.
+확장 ID 고정은 **OAuth 프로덕션 전환과 별개**입니다. GitHub 소스에 공개키를 반영했지만, 기존 PC의 정상 사용 중인 확장에는 **아직 적용하지 않았습니다.** 새 고정 ID `ffdbaoipblppbkoomlgoonmddgijbmcg`용 Google Cloud OAuth 클라이언트를 추가하고 **별도 Chrome 프로필에서 발송을 검증한 뒤** 기존 확장으로부터 이전합니다. [단계별 안내](docs/ID_MIGRATION_RUNBOOK.md).
 
 ## 빠른 시작
 
 1. [다른 PC 설치 가이드](docs/INSTALL.md)를 읽고 GitHub 소스를 내려받습니다.
 2. `chrome://extensions`에서 개발자 모드를 켜고 압축해제된 확장 프로그램을 로드합니다.
-3. Google Cloud의 **Quick Link Mail** 프로젝트에서 **이 PC의 확장 ID로 Chrome 확장 프로그램 OAuth 클라이언트**를 만들거나 확인합니다.
+3. Chrome의 확장 ID가 `ffdbaoipblppbkoomlgoonmddgijbmcg`인지 확인하고, Google Cloud **Quick Link Mail** 프로젝트에서 **이 고정 ID용 OAuth 클라이언트**를 최초 1회 만들거나 기존 값을 재사용합니다.
 4. `manifest.json`의 `oauth2.client_id`를 해당 클라이언트 ID로 교체한 뒤 확장 프로그램을 새로고침합니다.
 5. **확장 프로그램 옵션**에서 수신 Gmail을 저장하고 발신 Google 계정을 인증합니다.
 6. 일반 웹 페이지에서 아이콘을 한 번 클릭합니다. Gmail이 요청을 수락하면 **✓**, 오류면 **!**, 짧은 시간 내 재클릭은 **중복**으로 표시됩니다.
@@ -53,7 +53,7 @@
 - ✓는 Gmail API 접수 성공을 뜻하며, 최종 수신/스팸 미분류까지 보장하지 않습니다.
 - 현재 앱은 **외부 / 프로덕션 / 미검증** 상태입니다. 테스트 사용자 등록은 현재 필요 없지만 미검증 경고 및 100명 사용자 제한이 적용될 수 있습니다.
 - **이 저장소는 공개(Public)**이므로 OAuth client secret, Gmail 비밀번호, 인증 토큰, `.pem` 개인키를 절대 커밋하지 마세요. OAuth 클라이언트 ID 자체는 공개 식별자입니다.
-- 이 버전은 `manifest.key`로 확장 ID를 고정하지 않았습니다. 다른 PC에서 확장 ID가 달라지면 **기존 Cloud 프로젝트에 새 PC용 OAuth 클라이언트를 추가**해야 합니다.
+- 공개 소스의 `manifest.json`에는 공개키 `key`를 넣어 `ffdbaoipblppbkoomlgoonmddgijbmcg`로 ID를 고정했습니다. **기존에 설치한 확장의 ID와 다를 수 있으므로 업데이트 전에 마이그레이션 안내를 확인하세요.**
 
 ## 개발
 
@@ -67,7 +67,7 @@
 
 ## 고정 ID 마이그레이션 진행
 
-기존 확장을 유지한 채 새로운 고정 ID로 이전하는 절차를 준비했습니다. 먼저 미니PC에서 **개인키를 로컬 보관**하고 공개키와 새 ID만 확인합니다.
+미니PC에서 생성한 개인키는 **로컬에만 보관**하고, 공개키를 GitHub `manifest.json`의 `key`에 반영했습니다. 이제 고정 ID `ffdbaoipblppbkoomlgoonmddgijbmcg`를 Google Cloud OAuth 클라이언트에 등록하고 **별도 Chrome 프로필에서 메일 발송을 검증**해야 합니다.
 
 - [단계별 마이그레이션 실행 가이드](docs/ID_MIGRATION_RUNBOOK.md)
 - [로컬에서 공개키/ID 생성하는 스크립트](scripts/generate-extension-key.sh)

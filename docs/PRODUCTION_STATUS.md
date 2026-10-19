@@ -17,14 +17,14 @@
 | Search Console | `ramza.duckdns.org` DNS TXT 소유권 확인 완료 |
 | DNS TXT | Google 확인 레코드 유지 필요 |
 | 서버 | 기존 미니PC Docker, Traefik TLS-ALPN-01 / `proxy` / `myresolver`, 별도 Nginx 웹사이트 컨테이너 |
-| Chrome 확장 ID | **아직 고정되지 않음** (`manifest.key` 미구현). PC/설치 경로에 따라 달라질 수 있음 |
+| Chrome 확장 ID | **GitHub 공개키 고정 완료**: `ffdbaoipblppbkoomlgoonmddgijbmcg`; 기존 설치본은 아직 이전 전, 새 ID OAuth 검증 대기 |
 | 7일마다 재인증 | **현재 External/Production이므로 테스트 모드의 7일 정책은 적용 대상 아님**. 다만 기존 승인 만료나 접근 취소로 추후 재인증할 수 있음 |
 
 ## 결론
 
 - **실제 사용:** 발신·수신까지 정상. 현재 PC는 코드 수정이나 인증 초기화 불필요.
 - **인증 유지:** 정기적으로 7일마다 강제 재인증하는 테스트 모드 정책은 벗어났으나, 영구 인증을 보장할 수는 없음. 기존 테스트 때 받은 토큰/승인이 남아 있으면 한 차례 재인증 필요 가능. 서비스가 실패할 때 [트러블슈팅](TROUBLESHOOTING.md) 참고.
-- **ID 고정:** 해결된 것이 아님. 새 PC에서는 각 PC의 확장 ID에 맞춰 동일 Cloud 프로젝트에 OAuth 클라이언트 추가. 동일 ID를 쓰려면 별도의 승인된 [`manifest.key` 마이그레이션](EXTENSION_ID.md) 필요.
+- **ID 고정:** GitHub 소스의 `manifest.json.key`로 `ffdbaoipblppbkoomlgoonmddgijbmcg` 설정 및 공개키 해시 검증 완료. **실제 Chrome 로드와 Gmail 발송 검증은 아직 대기**. 이전 확장/기존 OAuth 클라이언트를 삭제하지 말 것. [전환 절차](ID_MIGRATION_RUNBOOK.md).
 - **정식 Google 검증:** 사용자 한 명이 쓰는 경우 당장 필수 작업으로 보지 않지만 민감 범위 미검증 경고 및 100명 사용자 한도 가능. 공식 검증 완료라고 표시하지 말 것.
 - **사이트:** 이미 배포되어 있으므로 Docker 재시작 불필요. [배포·복구 문서](DEPLOY_WEBSITE.md)는 복구 시 사용.
 
